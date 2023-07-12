@@ -1,5 +1,5 @@
 // const rootUrl = 'http://www.hiolabs.com:8360/admin/';
-const rootUrl = 'http://127.0.0.1:8360/admin/';
+const rootUrl = 'http://150.158.51.160:8600/admin/';
 
 const api = {
     rootUrl : rootUrl,
