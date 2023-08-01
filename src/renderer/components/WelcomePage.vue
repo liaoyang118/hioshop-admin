@@ -7,15 +7,10 @@
         </div>
         <div class="content-main clearfix">
             <div class="notice">
-                <div class="l">本演示后台数据为演示数据，可以随意操作，系统每5分钟重置一次</div>
-                <div class="r" v-if="resetVision">
-                    <label>重置倒计时：</label>
-                    <countdown class="count" endTime="" :callback="callback" endText="已经结束了"></countdown>
-                </div>
+                <div class="l">本后台系统为内部系统，请妥善保管好账号密码。</div>
             </div>
             <div class="github">
-                <a target="_blank" href="https://github.com/iamdarcy">github地址</a>
-                <div class="l">请您在github给个star。 技术交流QQ群：824781955</div>
+                <div class="l">本系统为瑞之恒生物所有，如需开通账号，请联系系统管理员。</div>
             </div>
             <div class="header clearfix">
                 <el-card class="box-card card-red">
