@@ -180,6 +180,7 @@
 						<el-radio :label="2">外省顺丰(不保价)</el-radio>
 						<el-radio :label="3">江浙沪皖顺丰(特惠)</el-radio>
 						<el-radio :label="4">圆通</el-radio>
+						<el-radio :label="5">极兔</el-radio>
 					</el-radio-group>
 				</el-form-item>
 				<el-form-item label="保价金额及提醒" v-if="expressType == 1">
