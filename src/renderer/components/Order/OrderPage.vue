@@ -970,7 +970,41 @@
 					this.getList();
 				})
 			},
-
+			//极兔
+			deliveyGoJitu(){
+				let expressType = this.expressType;
+				if (expressType == 0) {
+					this.$message({
+						type: 'error',
+						message: '请选择一个快递免单模板!'
+					});
+					return false;
+				}
+								
+				if(expressType!=5){
+					this.$message({
+						type: 'error',
+						message: '此系统目前只开放极兔快递电子面单！'
+					});
+					return false;
+				}
+				this.sender.senderOptions = this.senderOptions;
+				this.receiver.receiveOptions = this.receiveOptions;
+				this.axios.post('order/getJituMianExpress', {
+					orderId: this.orderInfo.id,
+					sender: this.sender,
+					receiver: this.receiver,
+					expressType: expressType
+				}).then((response) => {
+					console.log('jitu response:'+response);
+					
+					// let newWindow = window.open("_blank");   //打开新窗口
+					// let codestr = this.rawHtml;   //获取需要生成pdf页面的div代码
+					// newWindow.document.write(codestr);   //向文档写入HTML表达式或者JavaScript代码
+					// newWindow.document.close();     //关闭document的输出流, 显示选定的数据
+					// newWindow.print();   //打印当前窗口
+				});
+			},
 			deliveyGoConfirm() {
 				// 可以设置成不预览，那么直接打印了
 				// 逻辑：打印快递单，这时会向快递鸟发送请求，然后得到快递单号,
@@ -983,6 +1017,7 @@
 					});
 					return false;
 				}
+
 				console.log(expressType);
 				this.sender.senderOptions = this.senderOptions;
 				this.receiver.receiveOptions = this.receiveOptions;

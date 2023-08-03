@@ -7,10 +7,7 @@
         </div>
         <div class="content-main clearfix">
             <div class="notice">
-                <div class="l">本系统是小程序商城后台系统</div>                
-            </div>
-            <div class="github">
-                <div class="l">请妥善保管好账号密码</div>
+                <div class="l">本系统是小程序商城后台系统，请妥善保管好密码！</div>
             </div>
             <div class="header clearfix">
                 <el-card class="box-card card-red">
