@@ -980,7 +980,7 @@
 					});
 					return false;
 				}
-				
+								
 				if(expressType!=5){
 					this.$message({
 						type: 'error',
@@ -990,7 +990,7 @@
 				}
 				this.sender.senderOptions = this.senderOptions;
 				this.receiver.receiveOptions = this.receiveOptions;
-				this.axios.post('order/getMianExpress', {
+				this.axios.post('order/getJituMianExpress', {
 					orderId: this.orderInfo.id,
 					sender: this.sender,
 					receiver: this.receiver,
