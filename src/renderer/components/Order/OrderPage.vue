@@ -180,6 +180,7 @@
 						<el-radio :label="2">外省顺丰(不保价)</el-radio>
 						<el-radio :label="3">江浙沪皖顺丰(特惠)</el-radio>
 						<el-radio :label="4">圆通</el-radio>
+						<el-radio :label="5">极兔</el-radio>
 					</el-radio-group>
 				</el-form-item>
 				<el-form-item label="保价金额及提醒" v-if="expressType == 1">
@@ -969,7 +970,61 @@
 					this.getList();
 				})
 			},
-
+			//极兔
+			deliveyGoJitu(){
+				let expressType = this.expressType;
+				if (expressType == 0) {
+					this.$message({
+						type: 'error',
+						message: '请选择一个快递免单模板!'
+					});
+					return false;
+				}
+				
+				if(expressType!=5){
+					this.$message({
+						type: 'error',
+						message: '此系统目前只开放极兔快递电子面单！'
+					});
+					return false;
+				}
+				this.sender.senderOptions = this.senderOptions;
+				this.receiver.receiveOptions = this.receiveOptions;
+				this.axios.post('order/getMianExpress', {
+					orderId: this.orderInfo.id,
+					sender: this.sender,
+					receiver: this.receiver,
+					expressType: expressType
+				}).then((response) => {
+					let expressInfo = response.data.data.latestExpressInfo;
+					if (expressInfo.ResultCode == 100) {
+						this.rawHtml = expressInfo.PrintTemplate;
+						this.sfHasValue = expressInfo.Order;
+						this.sfHasValue.expressValue = expressInfo.expressValue;
+						this.sfHasValue.send_time = expressInfo.send_time;
+						this.sfHasValue.remark = expressInfo.remark;
+						this.sfHasValue.MonthCode = expressInfo.MonthCode;
+						this.sfHasValue.send_time = expressInfo.send_time;
+						this.sfHasValue.orderId = this.orderInfo.id;
+						this.sfHasValue.expressType = expressType;
+						this.senderInfo = response.data.data.sender;
+						this.receiverInfo = response.data.data.receiver;
+						this.printMiandan = true;
+						this.dialogFormVisible = false;
+						this.dialogExpressVisible = false;
+					} else if (response.data.data.latestExpressInfo.ResultCode == 105) {
+						this.$message({
+							type: 'error',
+							message: '操作超时，请重试!'
+						});
+					}
+					// let newWindow = window.open("_blank");   //打开新窗口
+					// let codestr = this.rawHtml;   //获取需要生成pdf页面的div代码
+					// newWindow.document.write(codestr);   //向文档写入HTML表达式或者JavaScript代码
+					// newWindow.document.close();     //关闭document的输出流, 显示选定的数据
+					// newWindow.print();   //打印当前窗口
+				});
+			},
 			deliveyGoConfirm() {
 				// 可以设置成不预览，那么直接打印了
 				// 逻辑：打印快递单，这时会向快递鸟发送请求，然后得到快递单号,
@@ -982,6 +1037,7 @@
 					});
 					return false;
 				}
+
 				console.log(expressType);
 				this.sender.senderOptions = this.senderOptions;
 				this.receiver.receiveOptions = this.receiveOptions;
