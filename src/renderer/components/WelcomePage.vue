@@ -7,10 +7,7 @@
         </div>
         <div class="content-main clearfix">
             <div class="notice">
-                <div class="l">本后台系统为内部系统，请妥善保管好账号密码。</div>
-            </div>
-            <div class="github">
-                <div class="l">本系统为瑞之恒生物所有，如需开通账号，请联系系统管理员。</div>
+                <div class="l">本系统是小程序商城后台系统，请妥善保管好密码！</div>
             </div>
             <div class="header clearfix">
                 <el-card class="box-card card-red">

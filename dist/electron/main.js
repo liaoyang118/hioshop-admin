@@ -1124,7 +1124,11 @@ app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
  */
+<<<<<<< HEAD
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, "src/main"))
+=======
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, "src\\main"))
+>>>>>>> c5bc1f4432fd7d92d88acd95151f93026eacea13
 
 /***/ }),
 /* 8 */
