@@ -527,6 +527,12 @@
 					{{orderInfo.print_info}}
 				</div>
 			</div>
+			<div id="jitu-block" v-if="expressType == 5" style="display: block;width: 400px; height:720px; border: 1px solid #333; background: #fff;overflow: hidden;margin: 0 auto;">
+				<pdf :src="pdfBlob"></pdf>
+			</div>
+
+
+			
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="cancelPrint">取 消</el-button>
 				<el-button v-if="autoGoDelivery" type="primary" @click="printAndDeliveryConfirm">打印并发货</el-button>
@@ -571,6 +577,7 @@
 <script>
 	import VueBarcode from '../../../../node_modules/vue-barcode';
 	import ElButton from "../../../../node_modules/element-ui/packages/button/src/button.vue";
+	import { pdf } from "vue-pdf";
 	// Vue.component(VueBarcode.name, VueBarcode);
 
 	export default {
@@ -629,7 +636,8 @@
 				senderOptions: [],
 				receiveOptions: [],
 				receiver: {},
-				sender: {}
+				sender: {},
+				pdfBlob: null,
 			}
 		},
 		methods: {
@@ -997,6 +1005,19 @@
 					expressType: expressType
 				}).then((response) => {
 					console.log('jitu response:'+response);
+
+					this.printMiandan = true;
+					this.dialogFormVisible = false;
+					this.dialogExpressVisible = false;
+
+					// 假设你已经有一个 Base64 编码的 PDF 文件
+					const base64PDF = response.data.data.base64EncodeContent;
+
+					// 将 Base64 编码转换为 Blob 对象
+					const _pdfBlob = this.base64ToBlob(base64PDF, "application/pdf");
+
+					// 将 Blob 对象设置为组件的数据
+					this.pdfBlob = _pdfBlob;
 					
 					// let newWindow = window.open("_blank");   //打开新窗口
 					// let codestr = this.rawHtml;   //获取需要生成pdf页面的div代码
@@ -1224,10 +1245,32 @@
 					
 				}
 			},
+			base64ToBlob(base64Data, contentType) {
+				contentType = contentType || '';
+				var sliceSize = 1024;
+				var byteCharacters = atob(base64Data);
+				var bytesLength = byteCharacters.length;
+				var slicesCount = Math.ceil(bytesLength / sliceSize);
+				var byteArrays = new Array(slicesCount);
+
+				for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+					var begin = sliceIndex * sliceSize;
+					var end = Math.min(begin + sliceSize, bytesLength);
+
+					var bytes = new Array(end - begin);
+					for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+					bytes[i] = byteCharacters[offset].charCodeAt(0);
+					}
+					byteArrays[sliceIndex] = new Uint8Array(bytes);
+				}
+				return new Blob(byteArrays, { type: contentType });
+			}
+			
 		},
 		components: {
 			ElButton,
-			'barcode': VueBarcode
+			'barcode': VueBarcode,
+			pdf
 		},
 		// created(){
 		//     this.getList();
